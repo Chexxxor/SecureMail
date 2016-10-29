@@ -13,19 +13,20 @@ import java.security.cert.CertificateException;
 
 public class KeyLoader {
 	static String ksName = "keystore";
+	static String tsName = "truststore";
 	static char[] spass = {'M', 'y', 'P', 'a', 's', 's'};
 	
-	public static PublicKey getPublic(String name) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
-		return loadStore().getCertificate(name).getPublicKey();
+	public static PublicKey getPublic(String name) throws Exception {
+		return loadStore(ksName).getCertificate(name).getPublicKey();
 	}
 	
-	public static PrivateKey getPrivate(String name) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
-		return (PrivateKey) loadStore().getKey(name, spass);
+	public static PrivateKey getPrivate(String name) throws Exception {
+		return (PrivateKey) loadStore(ksName).getKey(name, spass);
 	}
 	
-	public static KeyStore loadStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{ 
+	public static KeyStore loadStore(String storeName) throws Exception { 
 		KeyStore ks = KeyStore.getInstance("JKS");
-		FileInputStream ksfis = new FileInputStream(ksName);
+		FileInputStream ksfis = new FileInputStream(storeName);
 		BufferedInputStream ksbufin = new BufferedInputStream(ksfis);
 		ks.load(ksbufin, spass);
 		return ks;
