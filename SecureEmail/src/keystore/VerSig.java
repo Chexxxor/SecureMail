@@ -11,7 +11,7 @@ public class VerSig {
 
 		if (args.length != 3 && args.length != 5) {
 			System.out.println("Usage:\tVerSig datafile signaturefile keyfile");
-			System.out.println("\t		VerSig datafile signaturefile keystorefile alias storepass");
+			System.out.println("\tVerSig datafile signaturefile keystorefile alias storepass");
 		}
 		else try {
 			boolean verifies;
@@ -23,7 +23,7 @@ public class VerSig {
 		} catch (Exception e) {
 			System.err.println("Caught exception " + e.toString());
 			System.out.println("Usage:\tVerSig datafile signaturefile keyfile");
-			System.out.println("\t		VerSig datafile signaturefile keystorefile alias storepass");
+			System.out.println("\tVerSig datafile signaturefile keystorefile alias storepass");
 		}
 	}
 	
