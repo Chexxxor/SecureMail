@@ -10,7 +10,6 @@ public class KeyLoader {
 	public static PublicKey getPublic(String store, String alias, char [] pass) throws Exception {
 		return loadStore(store, pass).getCertificate(alias).getPublicKey();
 	}
-	
 	public static PrivateKey getPrivate(String store, String alias, char[] pass) throws Exception {
 		return (PrivateKey) loadStore(store, pass).getKey(alias, pass);
 	}
