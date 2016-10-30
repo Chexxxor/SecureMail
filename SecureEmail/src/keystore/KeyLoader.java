@@ -15,7 +15,7 @@ public class KeyLoader {
 		return (PrivateKey) loadStore(store, pass).getKey(alias, pass);
 	}
 	
-	public static KeyStore loadStore(String storeName, char[] pass) throws Exception { 
+	private static KeyStore loadStore(String storeName, char[] pass) throws Exception { 
 		KeyStore ks = KeyStore.getInstance("JKS");
 		FileInputStream ksfis = new FileInputStream(storeName);
 		BufferedInputStream ksbufin = new BufferedInputStream(ksfis);

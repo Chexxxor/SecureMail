@@ -4,13 +4,10 @@ import java.io.*;
 import java.security.*;
 
 class GenSig {
-	static String ksName = "keystore";
-	static char[] spass = "MyPass".toCharArray();
-
 	/* Generate a RSA signature */
 	public static void main(String[] args) {
 		try {
-			if (args.length != 1) {
+			if (args.length != 4) {
 				System.out.println("Usage: GenSig datafile storefile alias storepass");
 			}
 			else try {
