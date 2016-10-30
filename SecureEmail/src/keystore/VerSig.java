@@ -3,19 +3,22 @@ package keystore;
 import java.io.*;
 import java.security.*;
 import java.security.spec.*;
-import java.text.SimpleDateFormat;
 
 public class VerSig {
     public static void main(String[] args) {
 
-        /* Verify a DSA signature */
+        /* Verify a RSA signature */
 
-        if (args.length != 3) {
-            System.out.println("Usage: VerSig " +
-                "publickeyfile signaturefile " + "datafile");
+        if (args.length != 3 && args.length != 5) {
+            System.out.println("Usage:\tVerSig datafile signaturefile keyfile");
+            System.out.println("\t		VerSig datafile signaturefile storefile alias storepass");
         }
         else try {
-        	boolean verifies = makeSignFromData(args[0], args[2]).verify(importSignFile(args[1]));
+        	boolean verifies;
+        	if(args.length == 3)
+        		verifies = makeSignFromData(args[2], args[0]).verify(importSignFile(args[1]));
+        	else
+        		verifies = makeSignFromData(KeyLoader.getPublic(args[2], args[3], args[4].toCharArray()), args[0]).verify(importSignFile(args[1]));
 
         	System.out.println("signature verifies: " + verifies);
         } catch (Exception e) {
@@ -43,9 +46,13 @@ public class VerSig {
     }
     
     public static Signature makeSignFromData(String keyFile, String dataFile) throws Exception {
+    	return makeSignFromData(importPublicKey(keyFile), dataFile);
+    }
+    public static Signature makeSignFromData(PublicKey key, String dataFile) throws Exception {
     	Signature sig = Signature.getInstance("SHA256WITHRSA", "SunRsaSign");
-    	sig.initVerify(importPublicKey(keyFile));
-    	
+    	//Signature sig = Signature.getInstance("SHA1WITHDSA", "SUN");
+    	sig.initVerify(key);
+   	
     	FileInputStream datafis = new FileInputStream(dataFile);
     	BufferedInputStream bufin = new BufferedInputStream(datafis);
 
@@ -57,6 +64,5 @@ public class VerSig {
     	};
     	bufin.close();
 
-    	return sig;
-    }
+    	return sig;    }
 }

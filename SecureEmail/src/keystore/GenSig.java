@@ -4,18 +4,18 @@ import java.io.*;
 import java.security.*;
 
 class GenSig {
+	static String ksName = "keystore";
+	static char[] spass = "MyPass".toCharArray();
 
-	/* Generate a DSA signature */
+	/* Generate a RSA signature */
 	public static void main(String[] args) {
 		try {
-			PrivateKey prK = KeyLoader.getPrivate("chexxor");
-			PublicKey puK = KeyLoader.getPublic("chexxor");
-			//PublicKey puK = KeyLoader.getPublic("allan");
-
 			if (args.length != 1) {
-				System.out.println("Usage: GenSig nameOfFileToSign");
+				System.out.println("Usage: GenSig datafile storefile alias storepass");
 			}
 			else try {
+				PrivateKey prK = KeyLoader.getPrivate(args[1], args[2], args[3].toCharArray());
+				PublicKey puK = KeyLoader.getPublic(args[1], args[2], args[3].toCharArray());
 				/* save the signature in a file */
 				FileOutputStream sigfos = new FileOutputStream("sign");
 				sigfos.write(sign(args[0], prK));
@@ -35,6 +35,7 @@ class GenSig {
 	
 	public static byte[] sign(String message, PrivateKey key) throws Exception {
 		Signature rsa = Signature.getInstance("SHA256WITHRSA", "SunRsaSign");
+		//Signature dsa = Signature.getInstance("SHA1WITHDSA", "SUN");
 		rsa.initSign(key);
 		FileInputStream fis = new FileInputStream(message);
 		BufferedInputStream bufin = new BufferedInputStream(fis);
