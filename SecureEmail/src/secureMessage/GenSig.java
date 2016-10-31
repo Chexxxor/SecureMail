@@ -1,4 +1,4 @@
-package keystore;
+package secureMessage;
 
 import java.io.*;
 import java.security.*;
